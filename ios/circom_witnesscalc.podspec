@@ -27,5 +27,5 @@ A new Flutter project.
   # see https://developer.apple.com/documentation/bundleresources/privacy_manifest_files
   # s.resource_bundles = {'circom_witnesscalc_privacy' => ['Resources/PrivacyInfo.xcprivacy']}
 
-  s.dependency 'circom_witnesscalc', '0.0.1-alpha.1'
+  s.dependency 'CircomWitnesscalc', '0.0.1-alpha.1'
 end
