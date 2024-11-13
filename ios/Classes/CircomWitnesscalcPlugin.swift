@@ -13,7 +13,7 @@ public class CircomWitnesscalcPlugin: NSObject, FlutterPlugin {
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
     switch call.method {
     case "calculateWitness":
-      handleCalculateWitness(call, result)
+        handleCalculateWitness(call, result: result)
     default:
       result(FlutterMethodNotImplemented)
     }
@@ -26,10 +26,13 @@ public class CircomWitnesscalcPlugin: NSObject, FlutterPlugin {
     let graphData = (args["graphData"] as! FlutterStandardTypedData).data
 
     do {
-        let witness = try calculateWitness(inputs: inputs, graphData: graphData)
+        let witness = try calculateWitness(
+            inputs: inputs.data(using: .utf8)!,
+            graph: graphData
+        )
 
         result(witness)
-    } catch is WitnesscalcError {
+    } catch is WitnessCalcError {
         result(FlutterError(code: "calculateWitness", message: "Witness calculation error", details: nil))
     } catch {
         result(FlutterError(code: "calculateWitness", message: "Unknown error", details: nil))
