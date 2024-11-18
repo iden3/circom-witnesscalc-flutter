@@ -5,13 +5,13 @@
 Pod::Spec.new do |s|
   s.name             = 'circom_witnesscalc'
   s.version          = '0.0.1'
-  s.summary          = 'A new Flutter project.'
+  s.summary          = 'circom_witnesscalc plugin for Flutter.'
   s.description      = <<-DESC
-A new Flutter project.
+circom_witnesscalc plugin for Flutter. This plugin is used to calculate the witness for a given circuit and input.
                        DESC
-  s.homepage         = 'http://example.com'
-  s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
+  s.homepage         = 'https://github.com/iden3/circom-witnesscalc-flutter'
+  s.license          = { :file => '../LICENSE-MIT' }
+  s.author           = { 'Iden3' => 'hello@iden3.io' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
