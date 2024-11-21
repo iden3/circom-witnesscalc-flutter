@@ -85,7 +85,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/share_plus/ios"
 
 SPEC CHECKSUMS:
-  circom_witnesscalc: e5275b38212454a1fb301988c6d92457633240ea
+  circom_witnesscalc: 8d93a269f84300930b6c74afdd013afcf2cef60d
   CircomWitnesscalc: 77ebed71f7c5001e1a9e45c406904e9417bbe68b
   DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
   DKPhotoGallery: b3834fecb755ee09a593d7c9e389d8b5d6deed60
