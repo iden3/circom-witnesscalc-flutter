@@ -182,7 +182,7 @@ class _MyAppState extends State<MyApp> {
                   title: Text(
                     _defaultZkeyFilePath != _zkeyFilePath
                         ? "Selected .zkey File path: ${basename(_zkeyFilePath!)}"
-                        : "Default authV2 graph data selected",
+                        : "Default authV2 zkey file selected",
                     style: const TextStyle(fontSize: 16),
                   ),
                   trailing: ElevatedButton.icon(
@@ -221,11 +221,11 @@ class _MyAppState extends State<MyApp> {
                   const SizedBox(height: 16),
                   ElevatedButton(
                     onPressed: onShare,
-                    child: const Text("Share witness"),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                       foregroundColor: Colors.white,
                     ),
+                    child: const Text("Share witness"),
                   ),
                   const SizedBox(height: 16),
                   ElevatedButton.icon(
