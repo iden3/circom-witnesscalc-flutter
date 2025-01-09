@@ -76,9 +76,7 @@ class _MyAppState extends State<MyApp> {
 
   Future<void> copyAssetToDocumentsDirectory(String asset) async {
     final directory = await getApplicationDocumentsDirectory();
-    final fileName = asset
-        .split('/')
-        .last;
+    final fileName = asset.split('/').last;
     final file = File('${directory.path}/$fileName');
 
     if (!await file.exists()) {
@@ -158,13 +156,13 @@ class _MyAppState extends State<MyApp> {
                   ),
                   trailing: ElevatedButton.icon(
                     onPressed: () async {
-                      final result = await FilePicker.platform.pickFiles(type: FileType.any);
+                      final result = await FilePicker.platform
+                          .pickFiles(type: FileType.any);
 
-                      final file = result?.files.first;
-                      if (file?.path != null) {
-                        final fileBytes = await File(file!.path!).readAsBytes();
+                      final filePath = result?.files.first.path;
+                      if (filePath != null) {
                         setState(() {
-                          _graphWCDPath = file.path!;
+                          _graphWCDPath = filePath;
                           resetOutputs();
                         });
                       }
@@ -187,7 +185,8 @@ class _MyAppState extends State<MyApp> {
                   ),
                   trailing: ElevatedButton.icon(
                     onPressed: () async {
-                      final result = await FilePicker.platform.pickFiles(type: FileType.any);
+                      final result = await FilePicker.platform
+                          .pickFiles(type: FileType.any);
 
                       final file = result?.files.first;
                       if (file?.path != null) {
@@ -249,7 +248,8 @@ class _MyAppState extends State<MyApp> {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  Text("Proof generated in $_proofGenerationTimestamp millis", style: const TextStyle(fontSize: 16)),
+                  Text("Proof generated in $_proofGenerationTimestamp millis",
+                      style: const TextStyle(fontSize: 16)),
                   const SizedBox(height: 16),
                   Text(_proof!, style: const TextStyle(fontSize: 16)),
                 ],
@@ -263,10 +263,8 @@ class _MyAppState extends State<MyApp> {
 
   // Generate the witness
   Future<void> onGenerateWitness() async {
-
     final stopwatch = Stopwatch();
     try {
-
       if (_defaultInputsPath == null || _graphWCDPath == null) {
         return;
       }
@@ -306,9 +304,11 @@ class _MyAppState extends State<MyApp> {
     final stopwatch = Stopwatch();
     try {
       stopwatch.start();
-      final zkProof = await Rapidsnark().groth16ProveWithZKeyFilePath(witness: _witness!, zkeyPath: _zkeyFilePath!);
+      final zkProof = await Rapidsnark().groth16Prove(
+        zkeyPath: _zkeyFilePath!,
+        witness: _witness!,
+      );
       _proofGenerationTimestamp = stopwatch.elapsedMilliseconds;
-
 
       //console log the proof and public signals
       final proofData = {
@@ -321,7 +321,6 @@ class _MyAppState extends State<MyApp> {
 
       setState(() {
         _proof = proofJson;
-
 
         _errorMessage = "";
       });
@@ -354,7 +353,8 @@ class _MyAppState extends State<MyApp> {
 
     Share.shareXFiles(
       [
-        XFile.fromData(Uint8List.fromList(utf8.encode(_proof!)), name: "proof.json"),
+        XFile.fromData(Uint8List.fromList(utf8.encode(_proof!)),
+            name: "proof.json"),
       ],
       text: "Proof generated in $_proofGenerationTimestamp millis",
     );
