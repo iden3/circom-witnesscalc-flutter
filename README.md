@@ -41,4 +41,4 @@ Check out the [example app](./example) and [example README](./example/README.md)
 
 ## License
 
-circom-witnesscalc-flutter is part of the iden3 project and licensed under MIT and APACHE 2.0 licences. Please check the [LICENSE-MIT](./LICENSE-MIT) and [LICENSE-APACHE](./LICENSE-APACHE) files for more details.
+circom-witnesscalc-flutter is part of the iden3 project and licensed under MIT and APACHE 2.0 licences. Please check the [LICENSE-MIT](./LICENSE-MIT) and [LICENSE](./LICENSE) files for more details.
