@@ -27,5 +27,5 @@ circom_witnesscalc plugin for Flutter. This plugin is used to calculate the witn
   # see https://developer.apple.com/documentation/bundleresources/privacy_manifest_files
   # s.resource_bundles = {'circom_witnesscalc_privacy' => ['Resources/PrivacyInfo.xcprivacy']}
 
-  s.dependency 'CircomWitnesscalc', '0.0.1-alpha.2'
+  s.dependency 'CircomWitnesscalc', '0.0.1-alpha.3'
 end

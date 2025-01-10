@@ -31,7 +31,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.0.1-alpha.1"
+    version: "0.0.1-alpha.2"
   clock:
     dependency: transitive
     description:
@@ -142,10 +142,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_rapidsnark
-      sha256: "1e1a1916f94806358e015ded8ac45036939ca812bfd64362bea399261d340121"
+      sha256: "45eac2f1d5b46b21ee2dc3c6ad213f53d2d4f18e4d8a36f40da2aafbf1e2c703"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.1-alpha.3"
+    version: "0.0.1-beta.1"
   flutter_test:
     dependency: "direct dev"
     description: flutter

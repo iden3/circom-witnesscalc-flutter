@@ -6,7 +6,7 @@
 // For more information about Flutter integration tests, please see
 // https://flutter.dev/to/integration-testing
 
-import 'dart:typed_data';
+import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_rapidsnark/flutter_rapidsnark.dart';
@@ -14,27 +14,32 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 
 import 'package:circom_witnesscalc/circom_witnesscalc.dart';
+import 'package:path_provider/path_provider.dart';
 
-const zkeyPath = 'assets/authV2.zkey';
-const inputsPath = 'assets/authV2_inputs.json';
-const wcdPath = 'assets/authV2.wcd';
-const vkPath = 'assets/authV2_verification_key.json';
+const zkeyAsset = 'assets/authV2.zkey';
+const inputsAsset = 'assets/authV2_inputs.json';
+const wcdAsset = 'assets/authV2.wcd';
+const vkAsset = 'assets/authV2_verification_key.json';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
   final plugin = CircomWitnesscalc();
   final rapidsnark = Rapidsnark();
 
-  Uint8List zkey = Uint8List(0);
+  String zkeyPath = "";
   String inputs = '';
   Uint8List witnessGraph = Uint8List(0);
   String verificationKey = '';
 
   setUpAll(() async {
-    zkey = (await rootBundle.load(zkeyPath)).buffer.asUint8List();
-    inputs = await rootBundle.loadString(inputsPath);
-    witnessGraph = (await rootBundle.load(wcdPath)).buffer.asUint8List();
-    verificationKey = await rootBundle.loadString(vkPath);
+    final cacheDir = await getTemporaryDirectory();
+    zkeyPath = '${cacheDir.path}/authV2.zkey';
+    final bytes = await rootBundle.load(zkeyAsset);
+    await File(zkeyPath).writeAsBytes(bytes.buffer.asUint8List());
+
+    inputs = await rootBundle.loadString(inputsAsset);
+    witnessGraph = (await rootBundle.load(wcdAsset)).buffer.asUint8List();
+    verificationKey = await rootBundle.loadString(vkAsset);
   });
 
   testWidgets('Test witness calculation', (tester) async {
@@ -47,7 +52,7 @@ void main() {
     expect(witness?.isNotEmpty, true);
 
     final proof = await rapidsnark.groth16Prove(
-      zkey: zkey,
+      zkeyPath: zkeyPath,
       witness: witness!,
     );
 

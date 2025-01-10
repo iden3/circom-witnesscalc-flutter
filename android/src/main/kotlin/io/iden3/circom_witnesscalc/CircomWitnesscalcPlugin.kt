@@ -40,11 +40,15 @@ class CircomWitnesscalcPlugin: FlutterPlugin, MethodCallHandler {
     val inputs = arguments["inputs"] as String
     val graphData = arguments["graphData"] as ByteArray
 
-    val witness = calculateWitness(
-      inputs,
-      graphData,
-    )
+    try {
+      val witness = calculateWitness(
+        inputs,
+        graphData,
+      )
 
-    result.success(witness)
+      result.success(witness)
+    } catch (e: Exception) {
+      result.error("CIRCOM_WITNESSCALC_ERROR", e.message, null)
+    }
   }
 }
