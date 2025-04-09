@@ -1,3 +1,7 @@
+## 0.0.1-alpha.4
+
+* Updated Android native lib to 0.0.1-alpha.4.
+
 ## 0.0.1-alpha.3
 
 * Updated Android native lib to 0.0.1-alpha.3.
