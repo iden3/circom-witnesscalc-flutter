@@ -1,3 +1,7 @@
+## 0.0.1-alpha.5 (2025-09-22)
+
+Added SPM support for iOS.
+
 ## 0.0.1-alpha.4
 
 * Updated Android native lib to 0.0.1-alpha.4.
