@@ -8,13 +8,19 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 import io.flutter.plugin.common.MethodChannel.Result
 import io.iden3.circomwitnesscalc.*
+import android.os.Handler
+import android.os.Looper
+import java.util.concurrent.Executors
+import java.util.concurrent.ExecutorService
 
 /** CircomWitnesscalcPlugin */
 class CircomWitnesscalcPlugin: FlutterPlugin, MethodCallHandler {
-  /// The MethodChannel that will the communication between Flutter and native Android
-  ///
-  /// This local reference serves to register the plugin with the Flutter Engine and unregister it
-  /// when the Flutter Engine is detached from the Activity
+  // Thread pool for heavy witness calculations (size based on available processors)
+  private val executor: ExecutorService = Executors.newFixedThreadPool(
+    maxOf(2, Runtime.getRuntime().availableProcessors())
+  )
+  private val mainHandler = Handler(Looper.getMainLooper())
+
   private lateinit var channel : MethodChannel
 
   override fun onAttachedToEngine(flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
@@ -32,23 +38,42 @@ class CircomWitnesscalcPlugin: FlutterPlugin, MethodCallHandler {
 
   override fun onDetachedFromEngine(binding: FlutterPlugin.FlutterPluginBinding) {
     channel.setMethodCallHandler(null)
+    executor.shutdown()
   }
 
   private fun handleCalculateWitness(call: MethodCall, result: Result) {
-    val arguments: Map<String, Any> = call.arguments<Map<String, Any>>()!!
-
-    val inputs = arguments["inputs"] as String
-    val graphData = arguments["graphData"] as ByteArray
-
-    try {
-      val witness = calculateWitness(
-        inputs,
-        graphData,
-      )
-
-      result.success(witness)
+    val arguments = try {
+      @Suppress("UNCHECKED_CAST")
+      call.arguments as? Map<String, Any>
     } catch (e: Exception) {
-      result.error("CIRCOM_WITNESSCALC_ERROR", e.message, null)
+      null
+    }
+
+    if (arguments == null) {
+      result.error("CIRCOM_WITNESSCALC_ERROR", "Invalid arguments", null)
+      return
+    }
+
+    val inputs = arguments["inputs"] as? String
+    val graphData = arguments["graphData"] as? ByteArray
+
+    if (inputs == null || graphData == null) {
+      result.error("CIRCOM_WITNESSCALC_ERROR", "Missing inputs or graphData", null)
+      return
+    }
+
+    // Run heavy calculation off the main thread
+    executor.execute {
+      try {
+        val witness = calculateWitness(
+          inputs,
+          graphData,
+        )
+        // Post result back to main thread
+        mainHandler.post { result.success(witness) }
+      } catch (e: Exception) { // Catch any calculation error
+        mainHandler.post { result.error("CIRCOM_WITNESSCALC_ERROR", e.message ?: "Unknown error", null) }
+      }
     }
   }
 }
