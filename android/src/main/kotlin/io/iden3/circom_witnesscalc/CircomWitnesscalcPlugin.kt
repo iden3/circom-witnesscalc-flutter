@@ -15,10 +15,8 @@ import java.util.concurrent.ExecutorService
 
 /** CircomWitnesscalcPlugin */
 class CircomWitnesscalcPlugin: FlutterPlugin, MethodCallHandler {
-  // Thread pool for heavy witness calculations (size based on available processors)
-  private val executor: ExecutorService = Executors.newFixedThreadPool(
-    maxOf(2, Runtime.getRuntime().availableProcessors())
-  )
+  // Thread pool for heavy witness calculations (uses cached thread pool to avoid excessive threads)
+  private val executor: ExecutorService = Executors.newCachedThreadPool()
   private val mainHandler = Handler(Looper.getMainLooper())
 
   private lateinit var channel : MethodChannel
