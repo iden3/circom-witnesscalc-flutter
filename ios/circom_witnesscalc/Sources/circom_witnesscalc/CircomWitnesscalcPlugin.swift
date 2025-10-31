@@ -27,17 +27,10 @@ public class CircomWitnesscalcPlugin: NSObject, FlutterPlugin {
   }
 
   private func handleCalculateWitness(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-    guard let args = call.arguments as? [String: Any] else {
-        result(FlutterError(code: "calculateWitness", message: "Invalid arguments", details: nil))
-        return
-    }
+    let args = call.arguments as! Dictionary<String, Any>
 
-    guard let inputs = args["inputs"] as? String,
-          let graphData = (args["graphData"] as? FlutterStandardTypedData)?.data,
-          let inputsData = inputs.data(using: .utf8) else {
-      result(FlutterError(code: "calculateWitness", message: "Missing or malformed inputs / graphData", details: nil))
-      return
-    }
+    let inputsData = (args["inputs"] as! String).data(using: .utf8)!
+    let graphData = (args["graphData"] as! FlutterStandardTypedData).data
 
     // Perform heavy calculation off the main thread.
     workerQueue.async { [weak self] in

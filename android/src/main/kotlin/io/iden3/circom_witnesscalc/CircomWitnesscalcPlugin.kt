@@ -40,20 +40,10 @@ class CircomWitnesscalcPlugin: FlutterPlugin, MethodCallHandler {
   }
 
   private fun handleCalculateWitness(call: MethodCall, result: Result) {
-    val arguments = try {
-      @Suppress("UNCHECKED_CAST")
-      call.arguments as? Map<String, Any>
-    } catch (e: Exception) {
-      null
-    }
+    val arguments: Map<String, Any> = call.arguments<Map<String, Any>>()!!
 
-    if (arguments == null) {
-      result.error("CIRCOM_WITNESSCALC_ERROR", "Invalid arguments", null)
-      return
-    }
-
-    val inputs = arguments["inputs"] as? String
-    val graphData = arguments["graphData"] as? ByteArray
+    val inputs = arguments["inputs"] as String
+    val graphData = arguments["graphData"] as ByteArray
 
     if (inputs == null || graphData == null) {
       result.error("CIRCOM_WITNESSCALC_ERROR", "Missing inputs or graphData", null)
