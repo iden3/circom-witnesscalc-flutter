@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "circom-witnesscalc-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/iden3/circom-witnesscalc-swift.git",
+      "state" : {
+        "revision" : "514789579f695df6ec82ab2634c0f8bfaa60b5d9",
+        "version" : "0.0.1-alpha.3"
+      }
+    }
+  ],
+  "version" : 2
+}
