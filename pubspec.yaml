@@ -1,6 +1,6 @@
 name: circom_witnesscalc
 description: "Circom witness calculation Flutter Plugin"
-version: 0.0.1-alpha.5
+version: 0.0.1-beta.1
 homepage: https://github.com/iden3/circom-witnesscalc-flutter
 
 environment:

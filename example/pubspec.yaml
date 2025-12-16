@@ -9,7 +9,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_rapidsnark: ^0.0.1-beta.4
+  flutter_rapidsnark: ^0.0.1-beta.5
   circom_witnesscalc:
     path: ../
 
